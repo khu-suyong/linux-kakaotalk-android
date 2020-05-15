@@ -12,7 +12,6 @@ import io.suyong.kakaobridge.R
 import kotlinx.android.synthetic.main.item_log.view.*
 import java.text.SimpleDateFormat
 
-
 class LogAdapter : RecyclerView.Adapter<LogViewHolder>() {
     override fun getItemId(position: Int): Long {
         return position.toLong()
@@ -39,6 +38,7 @@ class LogAdapter : RecyclerView.Adapter<LogViewHolder>() {
                 LogType.INFO -> R.drawable.ic_log_info
                 LogType.WARN -> R.drawable.ic_log_warn
                 LogType.ERROR -> R.drawable.ic_log_error
+                LogType.DEBUG -> R.drawable.ic_log_debug
                 else -> R.drawable.ic_log_error
             }
         )

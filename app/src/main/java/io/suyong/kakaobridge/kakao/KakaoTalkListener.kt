@@ -1,17 +1,11 @@
-package io.suyong.kakaobridge
+package io.suyong.kakaobridge.kakao
 
 import android.app.Notification
-import android.content.Intent
-import android.os.Build
-import android.os.IBinder
 import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
-import android.text.Html
-import android.text.SpannableString
-import android.text.Spanned
-import android.util.Log
-import android.widget.Toast
-import io.suyong.kakaobridge.kakao.Message
+import io.suyong.kakaobridge.Config
+import io.suyong.kakaobridge.logger.LogType
+import io.suyong.kakaobridge.logger.Logger
 
 class KakaoTalkListener: NotificationListenerService() {
     override fun onNotificationPosted(sbn: StatusBarNotification) {
@@ -30,16 +24,9 @@ class KakaoTalkListener: NotificationListenerService() {
                     val session = act
 
                     val message = Message(room, sender, text, session)
+                    Logger.add(LogType.INFO, "Message Recieved", message.toString())
                 }
             }
         }
-    }
-
-    override fun onBind(intent: Intent?): IBinder? {
-        return super.onBind(intent)
-    }
-
-    override fun onNotificationRemoved(sbn: StatusBarNotification?) {
-        super.onNotificationRemoved(sbn)
     }
 }
