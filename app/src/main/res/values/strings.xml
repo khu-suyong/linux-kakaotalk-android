@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Kakao Bridge</string>
+    <string name="log_title_default">Not Initilaize</string>
+    <string name="log_content_default">Error: this log item does not initialize.</string>
+    <string name="log_icon_default">Log type</string>
+    <string name="server_url">Server url</string>
 </resources>
