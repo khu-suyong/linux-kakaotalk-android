@@ -6,8 +6,8 @@ object Logger {
     private var addListener: (log: Log) -> Unit = {}
     private var removeListener: (position: Int) -> Unit = {}
 
-    fun add (type: LogType, title: String, content: String) {
-        val log = Log(type, title, content)
+    fun add (type: LogType, title: String, vararg content: String) {
+        val log = Log(type, title, content.joinToString("\n"))
 
         list.add(log)
         addListener.invoke(log)

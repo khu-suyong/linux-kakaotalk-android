@@ -1,22 +1,25 @@
 package io.suyong.kakaobridge
 
+import android.app.ActivityManager
+import android.content.Context
+import android.content.Intent
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import androidx.core.widget.addTextChangedListener
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import io.suyong.kakaobridge.logger.Log
 import io.suyong.kakaobridge.logger.LogAdapter
 import io.suyong.kakaobridge.logger.LogType
 import io.suyong.kakaobridge.logger.Logger
+import io.suyong.kakaobridge.socket.NetworkService
 import kotlinx.android.synthetic.main.activity_main.*
 import java.net.MalformedURLException
 import java.net.URL
+
 
 class MainActivity : AppCompatActivity() {
     var isConnected: Boolean = false
@@ -82,17 +85,12 @@ class MainActivity : AppCompatActivity() {
 
         // init etc
         fab_power.setOnClickListener {
-            Logger.add(
-                LogType.DEBUG,
-                "afhaerharhrharh",
-                "asdgarhahawh"
-            )
-        }
+            val intent = Intent(this, NetworkService::class.java)
 
-        Logger.add(
-            LogType.INFO,
-            "Start Application",
-            "Main Activity started"
-        )
+            when (NetworkService.isRunning) {
+                true -> stopService(intent)
+                false -> startService(intent)
+            }
+        }
     }
 }

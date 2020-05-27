@@ -1,12 +1,25 @@
 package io.suyong.kakaobridge.socket
 
-import android.app.Service
-import android.content.Intent
-import android.os.IBinder
+import io.socket.client.IO
+import io.socket.client.Socket
+import io.suyong.kakaobridge.logger.LogType
+import io.suyong.kakaobridge.logger.Logger
+import java.lang.Exception
 
-class NetworkManager : Service() {
+class NetworkManager(var url: String = "") {
+    private var socket: Socket? = null
 
-    override fun onBind(intent: Intent): IBinder {
-        TODO("Return the communication channel to the service.")
+    fun connect(): Boolean {
+        try {
+            socket = IO.socket(url)
+            Logger.add(LogType.INFO, "Connected Server", "url: ${url}")
+
+            return true
+         } catch (error: Exception) {
+            Logger.add(LogType.ERROR, "Failed to connect server", error.toString())
+
+            return false
+        }
     }
+
 }
