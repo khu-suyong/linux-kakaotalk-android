@@ -18,10 +18,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import java.net.MalformedURLException
 import java.net.URL
 
-
 class MainActivity : AppCompatActivity() {
-    var isConnected: Boolean = false
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -64,30 +61,35 @@ class MainActivity : AppCompatActivity() {
                 true -> stopService(intent)
                 false -> startService(intent)
             }
+
+            changeStatus(2)
         }
 
         debug_button.setOnClickListener {
-            val intent = Intent(this, NetworkService::class.java)
-            intent.action = NetworkService.EMIT
-            intent.putExtra("emit", "message")
-
-            startService(intent)
+            NetworkManager.emit(
+                "message",
+                mapOf(
+                    "room" to "Test room name",
+                    "sender" to "Test Sender name",
+                    "text" to "anything else?"
+                )
+            )
         }
 
         NetworkManager.on(Socket.EVENT_CONNECT) {
             runOnUiThread {
-                change(true)
+                changeStatus(0)
             }
         }
         NetworkManager.on(Socket.EVENT_DISCONNECT) {
             runOnUiThread {
-                change(false)
+                changeStatus(1)
             }
         }
     }
 
-    fun change(enable: Boolean) { // TODO: rename
-        if (enable) {
+    private fun changeStatus(enable: Int) = when(enable) {
+        0 -> {
             connect_load.visibility = View.INVISIBLE
 
             textfield_server.isEnabled = true
@@ -95,14 +97,24 @@ class MainActivity : AppCompatActivity() {
             connect_image.setImageResource(R.drawable.ic_cloud_done_white_24dp)
             connect_image.setColorFilter(Color.rgb(255, 235, 59))
             connect_text.text = getString(R.string.ok_connect)
-        } else {
+        }
+        1 -> {
+            connect_load.visibility = View.INVISIBLE
+
+            textfield_server.isEnabled = true
+
+            connect_image.setImageResource(R.drawable.ic_cloud_off_white_24dp)
+            connect_image.setColorFilter(Color.rgb(0, 0, 0))
+            connect_text.text = getString(R.string.not_connect)
+        }
+        else -> {
             connect_load.visibility = View.VISIBLE
 
             textfield_server.isEnabled = false
 
             connect_image.setImageResource(R.drawable.ic_cloud_off_white_24dp)
             connect_image.setColorFilter(Color.rgb(0, 0, 0))
-            connect_text.text = getString(R.string.not_connect)
+            connect_text.text = getString(R.string.connecting)
         }
     }
 }

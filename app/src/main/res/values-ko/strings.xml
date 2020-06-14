@@ -8,4 +8,5 @@
     <string name="invalid_format_url">유효하지 않은 URL입니다.</string>
     <string name="not_connect">연결되지 않음</string>
     <string name="ok_connect">연결됨</string>
+    <string name="connecting">연결중...</string>
 </resources>

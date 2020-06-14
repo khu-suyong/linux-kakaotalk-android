@@ -32,13 +32,18 @@ object NetworkManager {
         Logger.add(LogType.INFO, "Network manager stopped")
     }
 
-    fun emit(event: String/*, obj: Any*/) {
-        val json = JSONObject()
-        json.put("room", "test room")
-        json.put("sender", "test sender")
-        json.put("text", "test text")
+    fun emit(event: String, obj: Map<String, String>? = null) {
+        if (obj != null) {
+            val json = JSONObject()
 
-        socket?.emit(event, json)
+            for (element in obj) {
+                json.put(element.key, element.value)
+            }
+
+            socket?.emit(event, json)
+        } else {
+            socket?.emit(event)
+        }
     }
 
     fun on(event: String, func: (data: Any) -> Any) {
@@ -74,5 +79,12 @@ object NetworkManager {
 
             io.connect()
         }
+
+        emit(
+            "register-client",
+            mapOf(
+                "type" to "bridge"
+            )
+        )
     }
 }

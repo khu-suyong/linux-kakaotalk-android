@@ -8,4 +8,5 @@
     <string name="invalid_format_url">Invalid url format</string>
     <string name="not_connect">Not connected</string>
     <string name="ok_connect">Connected</string>
+    <string name="connecting">Connecting...</string>
 </resources>
