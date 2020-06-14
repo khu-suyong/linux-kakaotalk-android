@@ -6,8 +6,11 @@ import android.service.notification.StatusBarNotification
 import io.suyong.kakaobridge.Config
 import io.suyong.kakaobridge.logger.LogType
 import io.suyong.kakaobridge.logger.Logger
+import io.suyong.kakaobridge.network.NetworkManager
 
 class KakaoTalkListener: NotificationListenerService() {
+    var messages = mutableListOf<Message>()
+
     override fun onNotificationPosted(sbn: StatusBarNotification) {
         super.onNotificationPosted(sbn)
 
@@ -24,6 +27,18 @@ class KakaoTalkListener: NotificationListenerService() {
                     val session = act
 
                     val message = Message(room, sender, text, session)
+
+                    KakaoManager.add(message)
+                    KakaoManager.add(room, session)
+
+                    NetworkManager.emit(
+                        "message",
+                        mapOf(
+                            "room" to room,
+                            "sender" to sender,
+                            "text" to text
+                        )
+                    )
                     Logger.add(LogType.INFO, "Message Recieved", message.toString())
                 }
             }

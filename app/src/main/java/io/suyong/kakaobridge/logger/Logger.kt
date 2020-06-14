@@ -2,6 +2,7 @@ package io.suyong.kakaobridge.logger
 
 import android.app.Activity
 import android.content.Context
+import io.suyong.kakaobridge.BuildConfig
 
 object Logger {
     val list = ArrayList<Log>()
@@ -14,6 +15,8 @@ object Logger {
 
     fun add (type: LogType, title: String, vararg content: String) {
         val log = Log(type, title, content.joinToString("\n"))
+
+        if (!BuildConfig.DEBUG && type == LogType.DEBUG) return
 
         list.add(log)
         activity?.runOnUiThread {

@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.socket.client.Socket
+import io.suyong.kakaobridge.kakao.KakaoManager
 import io.suyong.kakaobridge.logger.LogAdapter
 import io.suyong.kakaobridge.logger.Logger
 import io.suyong.kakaobridge.network.NetworkManager
@@ -30,6 +31,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        KakaoManager.init(this)
 
         val preference = PreferenceManager.getDefaultSharedPreferences(this)
         uuid = preference.getString("uuid", "") ?: ""
@@ -84,6 +87,7 @@ class MainActivity : AppCompatActivity() {
             changeStatus(2)
         }
 
+        if(!BuildConfig.DEBUG) debug_button.visibility = View.GONE
         debug_button.setOnClickListener {
             NetworkManager.emit(
                 "message",

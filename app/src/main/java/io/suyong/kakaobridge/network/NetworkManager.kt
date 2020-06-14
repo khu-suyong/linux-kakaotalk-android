@@ -77,15 +77,12 @@ object NetworkManager {
                 Logger.add(LogType.DEBUG, "Server connected", data.toString())
             }
 
-            io.on(Socket.EVENT_MESSAGE) { data ->
+            io.on("send") { data ->
                 val json = JSONObject(data[0].toString())
 
-                map[Socket.EVENT_MESSAGE]?.forEach {
+                map["send"]?.forEach {
                     it.invoke(json)
                 }
-
-                Log.d("socket.io", "message")
-                Logger.add(LogType.DEBUG, "Message", data.toString())
             }
 
             io.on(Socket.EVENT_DISCONNECT) { data ->

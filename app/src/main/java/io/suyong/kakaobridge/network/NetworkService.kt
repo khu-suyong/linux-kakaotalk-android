@@ -11,6 +11,7 @@ import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import io.suyong.kakaobridge.MainActivity
+import io.suyong.kakaobridge.kakao.KakaoManager
 import io.suyong.kakaobridge.logger.LogType
 import io.suyong.kakaobridge.logger.Logger
 
@@ -42,6 +43,13 @@ class NetworkService : Service() {
             .setOngoing(true)
 
         startForeground(1, builder.build())
+
+        NetworkManager.on("send") {
+            val text = it.get("text") as String
+            val room = it.get("room") as String
+
+            KakaoManager.send(room, text)
+        }
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int) = when(intent.action) {
