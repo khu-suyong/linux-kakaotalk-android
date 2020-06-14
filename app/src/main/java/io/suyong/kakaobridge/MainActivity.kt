@@ -3,6 +3,8 @@ package io.suyong.kakaobridge
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import androidx.preference.PreferenceManager
+import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -17,11 +19,28 @@ import io.suyong.kakaobridge.network.NetworkService
 import kotlinx.android.synthetic.main.activity_main.*
 import java.net.MalformedURLException
 import java.net.URL
+import java.util.*
+
 
 class MainActivity : AppCompatActivity() {
+    companion object {
+        var uuid: String = ""
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val preference = PreferenceManager.getDefaultSharedPreferences(this)
+        uuid = preference.getString("uuid", "") ?: ""
+
+        if (uuid == "") {
+            val editor = preference.edit()
+            editor.putString("uuid", Util.Base62.encoding(Date().time))
+            editor.apply()
+
+            uuid = preference.getString("uuid", "") ?: ""
+        }
 
         // init logger
         val adapter = LogAdapter()
@@ -86,6 +105,8 @@ class MainActivity : AppCompatActivity() {
                 changeStatus(1)
             }
         }
+
+        id_view.text = getString(R.string.my_id, uuid)
     }
 
     private fun changeStatus(enable: Int) = when(enable) {

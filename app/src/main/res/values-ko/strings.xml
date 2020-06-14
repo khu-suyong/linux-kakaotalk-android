@@ -9,4 +9,5 @@
     <string name="not_connect">연결되지 않음</string>
     <string name="ok_connect">연결됨</string>
     <string name="connecting">연결중...</string>
+    <string name="my_id">내 아이디: %1$s</string>
 </resources>

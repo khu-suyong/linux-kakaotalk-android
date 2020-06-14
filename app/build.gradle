@@ -37,4 +37,5 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'com.google.android.material:material:1.1.0'
     implementation 'io.socket:socket.io-client:1.0.0'
+    implementation "androidx.preference:preference-ktx:1.1.0"
 }
