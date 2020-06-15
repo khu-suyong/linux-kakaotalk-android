@@ -13,7 +13,6 @@ import io.suyong.kakaobridge.network.NetworkManager
 
 object KakaoManager {
     val messages = mutableListOf<Message>()
-    val rooms = mutableListOf<Room>()
     var context: Context? = null
 
     fun init(context: Context) {
@@ -25,16 +24,16 @@ object KakaoManager {
     }
 
     fun add(room: String, session: Notification.Action) {
-        val exist = this.rooms.find {
+        val exist = Room.list.find {
             it.name == room
         }
 
         if (exist == null)
-            this.rooms.add(Room(room, session))
+            Room.list.add(Room(room, session))
     }
 
     fun send(room: String, text: String) {
-        this.rooms.forEach {
+        Room.list.forEach {
             if (it.name == room) {
                 val intent = Intent()
                 val bundle = Bundle()

@@ -26,10 +26,12 @@ class KakaoTalkListener: NotificationListenerService() {
                     val room = (extras["android.summaryText"] ?: sender) as String
                     val session = act
 
+                    Room.add(room, session)
+                    User.add(sender, session)
+
                     val message = Message(room, sender, text, session)
 
                     KakaoManager.add(message)
-                    KakaoManager.add(room, session)
 
                     NetworkManager.emit(
                         "message",
